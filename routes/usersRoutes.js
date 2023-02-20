@@ -22,7 +22,7 @@ router.post(
       check("password")
         .not()
         .isEmpty()
-        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),
+        .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
         check("admin").isBoolean(),
         validateFields,
   ], 
@@ -52,7 +52,7 @@ router.post(
       check("password")
         .not()
         .isEmpty()
-        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),
+        .matches(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/),
       validateFields,
     ],
     register
@@ -72,7 +72,7 @@ router.put(
     "/",
     [
         auth, verifyRole,
-        check("campos").isObject(), check("id").not().isEmpty().isMongoId().custom(checkIfUserExists),
+        check("id").not().isEmpty().isMongoId().custom(checkIfUserExists),
         validateFields,
     ],
     editUser

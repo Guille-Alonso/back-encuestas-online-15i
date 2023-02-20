@@ -1,5 +1,7 @@
 const User = require("../models/User");
 const CustomError = require("../utils/customError");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const getUsers = async (req, res) => {
   try {
@@ -28,8 +30,8 @@ const getUsers = async (req, res) => {
       const newUser = new User({
         name,
         email,
-        admin: false,
         password: passwordEncrypted,
+        admin: false,
       });
   
       const userSaved = await newUser.save();
@@ -81,7 +83,20 @@ const deleteUser = async (req, res) => {
 const editUser = async(req,res) =>{
   try {
       const {id,campos}= req.body;
-      const usuarioModificado = await User.findOneAndUpdate({id:id},campos,{new:true})
+      let {password} = campos
+  
+      let fields;
+      if(password){
+        const salt = await bcrypt.genSalt(10);
+        const passwordEncrypted = await bcrypt.hash(password, salt);
+        password = passwordEncrypted;
+        fields = {
+          ...campos,
+          password:passwordEncrypted
+        }
+      } else fields = campos;
+      
+      const usuarioModificado = await User.findByIdAndUpdate(id,fields,{new:true})
       if(!usuarioModificado) throw new CustomError("Usuario no encontrado",404)
       res.status(200).json({message:"usuario modificado con exito",usuarioModificado})
   } catch (error) {
@@ -94,10 +109,12 @@ const editUser = async(req,res) =>{
 const addUser = async (req, res) => {
   try {
     const { name, email, password, admin } = req.body;
+    const salt = await bcrypt.genSalt(10);
+    const passwordEncrypted = await bcrypt.hash(password, salt);
     const newUser = new User({
       name,
       email,
-      password,
+      password: passwordEncrypted,
       admin
     });
     await newUser.save();

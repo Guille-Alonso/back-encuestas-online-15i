@@ -19,7 +19,7 @@ const UserSchema = new Schema({
         required: [true,"contraseña obligatoria"],
         trim: true,
         minLength: [7,'no puede tener menos de 7 caracteres'],
-        maxLength: [20, 'no puede tener mas de 20 caracteres']
+        maxLength: [150, 'no puede tener mas de 50 caracteres']
     },
     admin:{
          type:Boolean,
@@ -30,6 +30,11 @@ const UserSchema = new Schema({
 {
     versionKey : false,
     timestamps: true
-})
+});
+
+UserSchema.methods.toJSON = function () {
+    const { password, ...user } = this.toObject();
+    return user;
+  };
 
 module.exports = model('User',UserSchema)

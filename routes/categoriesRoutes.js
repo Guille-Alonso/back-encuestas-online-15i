@@ -35,7 +35,7 @@ router.put(
     "/",
     [
         auth, verifyRole,
-        check("campos").isObject(),check("id").not().isEmpty().isMongoId(),
+        check("id").not().isEmpty().isMongoId(),
         validateFields,
     ],
     editCategory
