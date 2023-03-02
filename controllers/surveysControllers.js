@@ -4,12 +4,12 @@ const CustomError = require("../utils/customError");
 const getSurveys = async (req, res) => {
     try {
      if(req.params.id){
-      const survey = await Survey.findOne({id:req.params.id});
+      const survey = await Survey.findOne({_id:req.params.id}).populate("categoria","-_id");
       if(!survey) throw new CustomError("Encuesta no encontrada",404)
       res.status(200).json({survey});
      }
      else{
-      const surveys = await Survey.find();
+      const surveys = await Survey.find().populate("categoria","-_id");
       res.status(200).json({surveys});
      } 
     
@@ -49,13 +49,15 @@ const getSurveys = async (req, res) => {
       
       const addSurvey = async (req, res) => {
         try {
-          const { name, state, questions, answers, category } = req.body;
+          const { name, estado, pregunta, categoria,unaRespuestaPorPersona } = req.body;
           const newSurvey = new Survey({
             name,
-            state,
-            questions,
-            answers,
-            category
+            estado,
+            pregunta,
+        
+            categoria,
+            
+            unaRespuestaPorPersona
           });
           await newSurvey.save();
           res.status(201).json({ message: "Se agregó una nueva encuesta con éxito" });

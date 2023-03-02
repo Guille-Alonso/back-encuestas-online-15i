@@ -7,17 +7,17 @@ const SurveySchema = new Schema({
         trim: true,
         unique:[true, 'ya existe una encuesta con ese nombre']
     },
-    state:{
+    estado:{
         type: String,
-        enum: ["active", "inactive", "pending"],
+        enum: ["activa", "inactiva", "pendiente"],
     },
-    questions:{
+    pregunta:{
         type: Array
     },
-    answers:{
+    respuesta:{
         type: Array
     },
-    category:{
+    categoria:{
         type: Schema.Types.ObjectId,
         ref: "Category"
     },
@@ -25,15 +25,19 @@ const SurveySchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: "User"
     },
-    oneAnswerPerPerson:{
+    unaRespuestaPorPersona:{
         type:Boolean
     }
   
 },
 {
     versionKey : false,
-    timestamps: true
+    timestamps: false
 })
+SurveySchema.methods.toJSON = function () {
+    const { user, ...survey } = this.toObject();
+    return survey;
+  };
 
 module.exports = model('Survey',SurveySchema)
 

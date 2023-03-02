@@ -9,7 +9,7 @@ const getCategories = async (req, res) => {
       res.status(200).json({category});
      }
      else{
-      const categories = await User.find();
+      const categories = await Category.find();
       res.status(200).json({categories});
      } 
     

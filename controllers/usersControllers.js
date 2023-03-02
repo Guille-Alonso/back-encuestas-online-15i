@@ -130,6 +130,7 @@ const addUser = async (req, res) => {
 const getAuthStatus = async (req, res) => {
   try {
     const id = req.id;
+    console.log(id);
     const user = await User.findById(id);
     if (!user) throw new CustomError("Autenticación fallida", 401);
     res.status(200).json({ user });

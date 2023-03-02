@@ -25,8 +25,9 @@ router.post(
     "/",
     [
         auth,
-        check("name").not().isEmpty().isString().isLength({ min: 5, max: 50 }), check("state").not().isEmpty().isString(),
-        check("category").not().isEmpty().isMongoId(), check("user").not().isEmpty().isMongoId().custom(checkIfUserExists),
+        check("name").not().isEmpty().isString().isLength({ min: 5, max: 50 }), check("estado").not().isEmpty().isString(),
+        check("categoria").not().isEmpty().isMongoId(),
+        check("unaRespuestaPorPersona").isBoolean(),
         validateFields,
     ], 
     addSurvey

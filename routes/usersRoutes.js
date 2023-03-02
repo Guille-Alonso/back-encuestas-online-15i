@@ -10,7 +10,7 @@ require("./../controllers/usersControllers");
 
 const router = Router();
 
-router.get("/:email?",auth, verifyRole ,getUsers);
+router.get("/email/:email?",auth, verifyRole ,getUsers);
 
 router.get("/authStatus", auth, getAuthStatus);
 

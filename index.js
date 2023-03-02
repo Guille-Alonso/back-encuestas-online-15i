@@ -9,6 +9,7 @@ const categoriesRoutes = require('./routes/categoriesRoutes')
 const surveysRoutes = require('./routes/surveysRoutes')
 
 const app = express();
+app.use(cors()); 
 dotenv.config(); 
 connectDB();
 
@@ -17,7 +18,7 @@ const PORT = process.env.PORT;
 app.use(morgan('dev'))
 app.use(express.json()); 
 app.use(express.urlencoded({extended:true})) 
-app.use(cors()); 
+
 
 app.use('/users',usersRoutes)
 app.use('/categories',categoriesRoutes)
