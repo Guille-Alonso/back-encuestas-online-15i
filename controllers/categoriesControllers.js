@@ -37,7 +37,9 @@ const getCategories = async (req, res) => {
       const editCategory = async(req,res) =>{
         try {
             const {id,campos}= req.body;
-            const categoriaModificada = await Category.findOneAndUpdate({id:id},campos,{new:true})
+            console.log(id);
+            console.log(campos);
+            const categoriaModificada = await Category.findByIdAndUpdate(id,campos,{new:true})
             if(!categoriaModificada) throw new CustomError("categoría no encontrada",404)
             res.status(200).json({message:"categoría modificada con exito",categoriaModificada})
         } catch (error) {

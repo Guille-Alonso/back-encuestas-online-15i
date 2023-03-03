@@ -4,7 +4,7 @@ const CustomError = require("../utils/customError");
 const getSurveys = async (req, res) => {
     try {
      if(req.params.id){
-      const survey = await Survey.findOne({_id:req.params.id}).populate("categoria","-_id");
+      const survey = await Survey.findOne({_id:req.params.id}).populate("categoria");
       if(!survey) throw new CustomError("Encuesta no encontrada",404)
       res.status(200).json({survey});
      }
@@ -37,7 +37,7 @@ const getSurveys = async (req, res) => {
       const editSurvey = async(req,res) =>{
         try {
             const {id,campos}= req.body;
-            const encuestaModificada = await Survey.findOneAndUpdate({id:id},campos,{new:true})
+            const encuestaModificada = await Survey.findByIdAndUpdate(id,campos,{new:true})
             if(!encuestaModificada) throw new CustomError("encuesta no encontrada",404)
             res.status(200).json({message:"encuesta modificada con exito",encuestaModificada})
         } catch (error) {
