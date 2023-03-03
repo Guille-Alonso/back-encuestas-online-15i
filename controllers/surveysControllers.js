@@ -9,7 +9,7 @@ const getSurveys = async (req, res) => {
       res.status(200).json({survey});
      }
      else{
-      const surveys = await Survey.find().populate("categoria","-_id");
+      const surveys = await Survey.find().populate("categoria");
       res.status(200).json({surveys});
      } 
     
@@ -44,6 +44,22 @@ const getSurveys = async (req, res) => {
             res
             .status(error.code || 500)
             .json({ message: error.message || "algo explotó :|" });
+        }
+      }
+
+      const editResponsesSurvey = async (req,res)=>{
+        try {
+          const {id,values}= req.body;
+
+          const encuestaAModificar = await Survey.findById(id);
+          await Survey.findByIdAndUpdate(id, {
+            respuestas: [...encuestaAModificar.respuesta, values],
+          });
+
+        } catch (error) {
+          res
+          .status(error.code || 500)
+          .json({ message: error.message || "algo explotó :|" });
         }
       }
       
