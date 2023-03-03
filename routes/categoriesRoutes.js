@@ -9,7 +9,7 @@ const { editCategory,deleteCategory,getCategories, addCategory } = require("./..
 
 const router = Router();
 
-router.get("/:id?",auth, verifyRole ,getCategories);
+router.get("/:id?" ,getCategories);
 
   router.post(
     "/",
