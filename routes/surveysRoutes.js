@@ -26,7 +26,7 @@ router.post(
     [
         auth,
         check("name").not().isEmpty().isString().isLength({ min: 5, max: 50 }), check("estado").not().isEmpty().isString(),
-        check("categoria").not().isEmpty().isMongoId(),
+        check("categoria").not().isEmpty().isMongoId(),check("user").not().isEmpty().isMongoId().custom(checkIfUserExists),
         check("unaRespuestaPorPersona").isBoolean(),
         validateFields,
     ], 

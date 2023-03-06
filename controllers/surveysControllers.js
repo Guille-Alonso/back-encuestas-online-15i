@@ -51,10 +51,10 @@ const getSurveys = async (req, res) => {
        
         try {
           const {id,valores}= req.body;
-console.log(valores);
+
           const encuestaAModificar = await Survey.findById(id);
           if(!encuestaAModificar) throw new CustomError("encuesta no encontrada",404)
-          // console.log(encuestaAModificar);
+         
           const encuestaModificada = await Survey.findByIdAndUpdate(id, {
             respuesta: [...encuestaAModificar.respuesta, valores],
           });
@@ -71,14 +71,13 @@ console.log(valores);
       
       const addSurvey = async (req, res) => {
         try {
-          const { name, estado, pregunta, categoria,unaRespuestaPorPersona } = req.body;
+          const { name, estado, pregunta,user, categoria,unaRespuestaPorPersona } = req.body;
           const newSurvey = new Survey({
             name,
             estado,
             pregunta,
-        
+            user,
             categoria,
-            
             unaRespuestaPorPersona
           });
           await newSurvey.save();
