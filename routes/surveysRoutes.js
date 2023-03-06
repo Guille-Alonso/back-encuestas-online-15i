@@ -5,7 +5,7 @@ const { check } = require("express-validator");
 const validateFields = require("../middlewares/validateFields");
 const { checkIfUserExists } = require("../utils/customValidations");
 
-const { addSurvey,deleteSurvey,editSurvey,getSurveys} = require("./../controllers/surveysControllers");
+const { addSurvey,deleteSurvey,editSurvey,getSurveys,editResponsesSurvey} = require("./../controllers/surveysControllers");
 
 const router = Router();
 
@@ -43,4 +43,12 @@ router.put(
     editSurvey
     );
 
+    router.put(
+        "/responses",
+        [
+            check("id").not().isEmpty().isMongoId(),
+            validateFields,
+        ],
+        editResponsesSurvey
+        );
 module.exports = router;

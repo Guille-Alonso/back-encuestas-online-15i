@@ -48,13 +48,19 @@ const getSurveys = async (req, res) => {
       }
 
       const editResponsesSurvey = async (req,res)=>{
+       
         try {
-          const {id,values}= req.body;
-
+          const {id,valores}= req.body;
+console.log(valores);
           const encuestaAModificar = await Survey.findById(id);
-          await Survey.findByIdAndUpdate(id, {
-            respuestas: [...encuestaAModificar.respuesta, values],
+          if(!encuestaAModificar) throw new CustomError("encuesta no encontrada",404)
+          // console.log(encuestaAModificar);
+          const encuestaModificada = await Survey.findByIdAndUpdate(id, {
+            respuesta: [...encuestaAModificar.respuesta, valores],
           });
+
+          if(!encuestaModificada) throw new CustomError("encuesta no encontrada",404)
+          res.status(200).json({message:"encuesta modificada con exito",encuestaModificada})
 
         } catch (error) {
           res
@@ -89,5 +95,6 @@ const getSurveys = async (req, res) => {
         addSurvey,
         getSurveys,
         deleteSurvey,
-        editSurvey
+        editSurvey,
+        editResponsesSurvey
     }
