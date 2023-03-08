@@ -3,7 +3,7 @@ const verifyRole = require("../middlewares/verifyRole");
 const auth =  require("../middlewares/auth")
 const { check } = require("express-validator");
 const validateFields = require("../middlewares/validateFields");
-const { checkIfUserExists } = require("../utils/customValidations");
+const { checkIfUserExists, checkIfEmailExists } = require("../utils/customValidations");
 
 const { getUsers, register, editUser, deleteUser, getAuthStatus, login, addUser} = 
 require("./../controllers/usersControllers");
@@ -48,7 +48,7 @@ router.post(
       )
         .isString()
         .isLength({ min: 2, max: 30 }),
-      check("email").isEmail().isLength({ min: 5, max: 50 }),
+      check("email").isEmail().isLength({ min: 5, max: 50 }).custom(checkIfEmailExists),
       check("password")
         .not()
         .isEmpty()
