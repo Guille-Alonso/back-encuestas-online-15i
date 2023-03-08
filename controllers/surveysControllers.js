@@ -54,7 +54,14 @@ const getSurveys = async (req, res) => {
 
           const encuestaAModificar = await Survey.findById(id);
           if(!encuestaAModificar) throw new CustomError("encuesta no encontrada",404)
-         
+
+          if(encuestaAModificar.unaRespuestaPorPersona){
+            for (let index = 0; index < encuestaAModificar.respuesta.length; index++) {
+                if(encuestaAModificar.respuesta[index].email==valores.email)
+                throw new CustomError("el usuario ya respondió a esta encuesta",404)
+             }
+          }
+     
           const encuestaModificada = await Survey.findByIdAndUpdate(id, {
             respuesta: [...encuestaAModificar.respuesta, valores],
           });
