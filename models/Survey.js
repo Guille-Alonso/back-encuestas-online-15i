@@ -5,7 +5,8 @@ const SurveySchema = new Schema({
         type: String,
         required: [true,"nombre obligatorio"],
         trim: true,
-        unique:[true, 'ya existe una encuesta con ese nombre']
+        unique:[true, 'ya existe una encuesta con ese nombre'],
+        lowercase:true
     },
     estado:{
         type: String,

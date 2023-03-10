@@ -27,13 +27,14 @@ const getUsers = async (req, res) => {
       const { name, email, password } = req.body;
       const salt = await bcrypt.genSalt(10);
       const passwordEncrypted = await bcrypt.hash(password, salt);
+     
       const newUser = new User({
         name,
         email,
         password: passwordEncrypted,
         admin: false,
       });
-  
+      
       const userSaved = await newUser.save();
       res.status(200).json({ message: "Registro correcto", user: userSaved });
     } catch (error) {
@@ -130,7 +131,7 @@ const addUser = async (req, res) => {
 const getAuthStatus = async (req, res) => {
   try {
     const id = req.id;
-    console.log(id);
+   
     const user = await User.findById(id);
     if (!user) throw new CustomError("Autenticación fallida", 401);
     res.status(200).json({ user });

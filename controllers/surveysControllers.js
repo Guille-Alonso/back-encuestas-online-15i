@@ -37,6 +37,7 @@ const getSurveys = async (req, res) => {
       const editSurvey = async(req,res) =>{
         try {
             const {id,campos}= req.body;
+
             const encuestaModificada = await Survey.findByIdAndUpdate(id,campos,{new:true})
             if(!encuestaModificada) throw new CustomError("encuesta no encontrada",404)
             res.status(200).json({message:"encuesta modificada con exito",encuestaModificada})

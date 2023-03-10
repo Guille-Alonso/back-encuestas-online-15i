@@ -5,7 +5,8 @@ const CategorySchema = new Schema({
         type: String,
         required: [true,"nombre obligatorio"],
         trim: true,
-        unique:[true, 'ya existe una categoría con ese nombre']
+        unique:[true, 'ya existe una categoría con ese nombre'],
+        lowercase:true
     },
     state:{
         type: Boolean,

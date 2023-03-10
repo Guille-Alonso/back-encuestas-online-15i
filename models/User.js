@@ -12,7 +12,8 @@ const UserSchema = new Schema({
         type: String,
         required:[true,'el email es obligatorio'],
         trim:true,
-        unique: [true,'ya existe un usuario con ese email']
+        unique: [true,'ya existe un usuario con ese email'],
+        lowercase:true
     },
     password:{
         type: String,

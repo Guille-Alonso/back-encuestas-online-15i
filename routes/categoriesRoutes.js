@@ -3,7 +3,7 @@ const verifyRole = require("../middlewares/verifyRole");
 const auth =  require("../middlewares/auth")
 const { check } = require("express-validator");
 const validateFields = require("../middlewares/validateFields");
-const { checkIfUserExists } = require("../utils/customValidations");
+const { checkIfUserExists, checkIfNameCategoryExists } = require("../utils/customValidations");
 
 const { editCategory,deleteCategory,getCategories, addCategory } = require("./../controllers/categoriesControllers");
 
@@ -15,7 +15,8 @@ router.get("/:id?" ,getCategories);
     "/",
     [
         auth,verifyRole,
-        check("name").not().isEmpty().isString().isLength({ min: 5, max: 50 }), check("state").isBoolean(),
+        check("name").not().isEmpty().isString().isLength({ min: 5, max: 50 }).custom(checkIfNameCategoryExists), 
+        check("state").isBoolean(),
         validateFields,
     ], 
     addCategory
@@ -36,6 +37,7 @@ router.put(
     [
         auth, verifyRole,
         check("id").not().isEmpty().isMongoId(),
+        check("campos.name").custom(checkIfNameCategoryExists),
         validateFields,
     ],
     editCategory
