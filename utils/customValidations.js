@@ -18,16 +18,26 @@ const checkIfEmailExists = async (email) => {
   if (user) throw new Error("El correo ya se encuentra registrado", 404);
 };
 
-const checkIfNameSurveyExists = async (name) => {
+const checkIfNameSurveyExists = async (campos) => {
 
-  const survey = await Survey.findOne({name});
-  if (survey) throw new Error("Ya existe una encuesta con ese nombre", 404);
+const name = campos?.name ?? campos;
+const survey = await Survey.findOne({name});
+
+if(campos._id !== null && campos._id !== undefined){
+  if (survey && `${survey._id}`!==campos._id) throw new Error("Ya existe una encuesta con ese nombre", 404);
+}else if(survey) throw new Error("Ya existe una encuesta con ese nombre", 404);
+  
 };
 
-const checkIfNameCategoryExists = async (name) => {
- 
+const checkIfNameCategoryExists = async (campos) => {
+
+  const name = campos?.name ?? campos;
   const category = await Category.findOne({name});
-  if (category) throw new Error("Ya existe una categoría con ese nombre", 404);
+
+  if(campos._id !== null && campos._id !== undefined){
+    if (category && `${category._id}`!==campos._id) throw new Error("Ya existe una categoría con ese nombre", 404);
+  }else if (category) throw new Error("Ya existe una categoría con ese nombre", 404);
+
 };
 
 module.exports = { checkIfUserExists , checkIfEmailExists,checkIfNameSurveyExists,checkIfNameCategoryExists,checkIfCategoryExists};

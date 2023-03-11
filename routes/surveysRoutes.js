@@ -40,7 +40,7 @@ router.put(
     [
         auth, verifyRole,
         check("id").not().isEmpty().isMongoId(),
-        check("campos.name").custom(checkIfNameSurveyExists),
+        check("campos").custom(checkIfNameSurveyExists),
         validateFields,
     ],
     editSurvey
