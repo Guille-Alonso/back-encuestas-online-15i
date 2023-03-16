@@ -15,7 +15,7 @@ router.get("/:id?" ,getCategories);
     "/",
     [
         auth,verifyRole,
-        check("name").not().isEmpty().isString().isLength({ min: 5, max: 50 }).custom(checkIfNameCategoryExists), 
+        check("name").not().isEmpty().isString().isLength({ min: 4, max: 50 }).custom(checkIfNameCategoryExists), 
         check("state").isBoolean(),
         validateFields,
     ], 

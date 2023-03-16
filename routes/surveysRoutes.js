@@ -25,7 +25,7 @@ router.post(
     "/",
     [
         auth,
-        check("name").not().isEmpty().isString().isLength({ min: 5, max: 50 }).custom(checkIfNameSurveyExists), 
+        check("name").not().isEmpty().isString().isLength({ min: 4, max: 50 }).custom(checkIfNameSurveyExists), 
         check("estado").not().isEmpty().isString(),
         check("categoria").not().isEmpty().isMongoId().custom(checkIfCategoryExists),
         check("user").not().isEmpty().isMongoId().custom(checkIfUserExists),

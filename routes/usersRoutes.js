@@ -18,7 +18,7 @@ router.post(
   "/",
   [
       auth,verifyRole,
-      check("name").not().isEmpty().isString().isLength({ min: 5, max: 50 }), check("email").isEmail().isLength({ min: 5, max: 50 }),
+      check("name").not().isEmpty().isString().isLength({ min: 4, max: 50 }), check("email").isEmail().isLength({ min: 5, max: 50 }),
       check("password")
         .not()
         .isEmpty()
